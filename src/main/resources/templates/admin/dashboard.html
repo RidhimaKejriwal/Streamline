@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{:: #content}, ~{:: title}, ~{:: script})}">
+
+<head>
+    <title data-th-text="${user.name}+' | CRM'">DashBoard Page</title>
+</head>
+
+<body>
+    <div id="content">
+        <!-- user logged in : sidebar -->
+        <div th:if="${user}">
+            <div data-th-replace="~{admin/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- main content -->
+        <div class="sm:pl-64 pt-20 mx-5">
+
+            <!-- card -->
+            <div
+                class="block w-full p-6 bg-white border border-indigo-500 rounded-lg shadow-xl hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800  hover:border-purple-500">
+
+                <h5 class="mb-2 text-5xl text-center text-gray-900 dark:text-white">Welcome, <span data-th-text="${user.name}"></span></h5>
+
+                <p class="mb-2 text-2xl text-center text-gray-600 dark:text-gray-400" data-th-text="${user.companyName}"></p>
+
+            </div>
+
+            <div class="p-6">
+
+                <!-- Statistics -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- <div class="p-6 bg-white border-2 border-purple-500 text-purple-500 dark:bg-gray-800 rounded-full shadow-lg text-center flex-wrap items-center justify-between"
+                        style="height: 200px; width: 200px;">
+                        <h2 class="mt-8 text-3xl">Employees</h2>
+                        <p class="mt-2 text-5xl" id="employeeCount">50</p>
+                    </div> -->
+
+                    <div style="width: 200px; height: 200px;" class="p-6 inline-flex items-center justify-center font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <div class="relative px-6 py-14 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0 text-center">
+                            <h2 class="text-3xl">Employees</h2>
+                            <p class="text-5xl" data-th-text="${employeeCount}"></p>
+                        </div>
+                    </div>
+                    <div style="width: 200px; height: 200px;" class="p-6 inline-flex items-center justify-center font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+                        <div class="relative px-6 py-14 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0 text-center">
+                            <h2 class="text-3xl">Customers</h2>
+                            <p class="text-5xl" data-th-text="${customerCount}"></p>
+                        </div>
+                    </div>
+                    <div style="width: 200px; height: 200px;" class="p-6 inline-flex items-center justify-center font-medium text-gray-900 rounded-full group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                        <div class="relative px-8 py-14 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0 text-center">
+                            <h2 class="text-3xl"> Sales(Rs.) </h2>
+                            <p class="text-5xl" data-th-text="${user.sales/1000}+'k'"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Admin Info -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-indigo-500 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800  hover:border-purple-500">
+                    <div class="mt-4 text-center">
+                        <p class="text-gray-700 dark:text-gray-400 mt-2"><strong>Email:</strong> <span data-th-text="${user.email}"></span></p>
+                        <p class="text-gray-700 dark:text-gray-400 mt-2"><strong>Phone:</strong> <span data-th-text="${user.phoneNumber}"></span></p>
+                        <p class="text-gray-700 dark:text-gray-400 mt-2"><strong>City:</strong> <span data-th-text="${user.city}"></span> </p>
+                        <p class="text-gray-700 dark:text-gray-400 mt-2"><strong>State:</strong> <span data-th-text="${user.state}"></span> </p>
+                        <p class="text-gray-700 dark:text-gray-400 mt-2"><strong>Address:</strong> <span data-th-text="${user.address}"></span></p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script>
+        console.log('dashboard page')
+    </script>
+</body>
+
+</html>

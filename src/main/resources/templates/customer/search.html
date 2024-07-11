@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{:: #content}, ~{:: title}, ~{:: script})}">
+
+<head>
+    <title>Search Page</title>
+</head>
+
+<body>
+    <div id="content">
+        <!-- user logged in : sidebar -->
+        <div th:if="${user}">
+            <div data-th-replace="~{customer/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- main content -->
+        <div class="sm:pl-64 pt-20 mx-5">
+
+            <h1 class="text-5xl text-center">Searched Results</h1>
+            <p class="text-center" data-th-text="${pageProject.totalElements}+' results found!!'"></p>
+
+            <div class="customers_container p-5">
+
+                <!-- message -->
+                <div data-th-replace="~{message :: messagebox}"></div>
+
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <form data-th-object="${projectSearchForm}" data-th-action="@{'/customer/projects/search'}">
+                        <div
+                            class="p-3 flex items-center space-x-3 flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                            <div>
+                                <!-- Dropdown menu -->
+                                <div class="max-w-sm mx-auto">
+                                    <select data-th-field="*{field}" id="countries"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected value="">Search By</option>
+                                        <option value="name">Project Name</option>
+                                        <option value="status">Status</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="table-search" class="sr-only">Search</label>
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <input data-th-field="*{value}" type="text" id="table-search-users"
+                                    class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Search for users">
+                            </div>
+                            <button type="submit" class="px-3 py-2 bg-blue-500 text-white rounded">Search</button>
+                        </div>
+                    </form>
+                    <table data-th-unless="${pageProject.isEmpty()}"
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Project Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Start Date
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Deadline
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-th-each="c : ${pageProject.getContent()}" data-th-object="${c}"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4 font-semibold">
+                                    <span data-th-text="*{status}"></span>
+                                </td>
+                                <th scope="row"
+                                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                    <div class="ps-3">
+                                        <div class="text-base font-semibold" data-th-text="*{name}"></div>
+                                    </div>
+                                </th>
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <i class="fa-solid fa-calender-days text-blue-500"></i>
+                                        <span data-th-text="*{startDate}"></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <i class="fa-solid fa-calender-days text-blue-500"></i>
+                                        <span data-th-text="*{endDate}"></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a data-th-href="@{'/customer/projects/view/'+*{id}}" class="px-1 text-blue-500">
+                                        <i class="fa-solid fa-eye"></i> view
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- pagination component -->
+                    <div data-th-unless="${pageProject.isEmpty()}" class="pagination_component p-2 text-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="inline-flex -space-x-px text-base h-10">
+                                <li data-th-unless="${pageProject.first}">
+                                    <a data-th-href="@{'/customer/projects/search?size='+${pageSize}+'&page='+${pageProject.number-1}+'&field='+${projectSearchForm.field}+'&value='+${projectSearchForm.value}}"
+                                        class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                                </li>
+                                <li data-th-each="index : ${#numbers.sequence(0,pageProject.totalPages-1)}">
+                                    <a data-th-href="@{'/customer/projects/search?size='+${pageSize}+'&page='+${index}+'&field='+${projectSearchForm.field}+'&value='+${projectSearchForm.value}}"
+                                        data-th-classappend="${index==pageProject.number?'bg-blue-200 dark:bg-gray-900':'bg-white dark:bg-gray-800'}"
+                                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <span data-th-text="${index+1}"></span>
+                                    </a>
+                                </li>
+                                <li data-th-unless="${pageProject.last}">
+                                    <a data-th-href="@{'/customer/projects/search?size='+${pageSize}+'&page='+${pageProject.number+1}+'&field='+${projectSearchForm.field}+'&value='+${projectSearchForm.value}}"
+                                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <h1 data-th-if="${pageProject.isEmpty()}" class="text-5xl text-center mt-4 text-red-500"> No results
+                    found!!</h1>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        console.log('search page')
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{:: #content}, ~{:: title}, ~{:: script})}">
+
+<head>
+    <title>Update Employee</title>
+</head>
+
+<body>
+    <div id="content">
+        <!-- user logged in : sidebar -->
+        <div th:if="${user}">
+            <div data-th-replace="~{admin/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- main content -->
+        <div class="sm:pl-64 pt-20 mx-5">
+            <div class="grid grid-cols-12">
+                <div class="col-span-1"></div>
+                <div class="col-span-12 md:col-span-10">
+                    <div
+                        class="mt-2 mb-4 block p-6 bg-white border-t-8 border-b-2 border-x-2 border-purple-600 rounded-lg shadow-lg hover:bg-blue-200  dark:border-purple-700 dark:hover:border-indigo-700  dark:bg-gray-900  hover:border-blue-500">
+
+                        <!-- message -->
+                        <div data-th-replace="~{message::messagebox}"></div>
+
+                        <h1 class="text-2xl font-semibold">Update Employee</h1>
+
+
+                        <!-- add contact form -->
+                        <form data-th-action="@{'/admin/employees/update/'+${employeeId}}" method="post"
+                            data-th-object="${employeeForm}" class="mt-6">
+
+                            <div class="relative mb-1">
+                                <input data-th-field="*{password}" type="hidden"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="password">
+                            </div>
+                            <p class="text-red-500" data-th-if="${#fields.hasErrors('password')}"
+                                data-th-errors="*{password}">
+                            </p>
+
+                            <!-- employee type -->
+                            <label for="employees"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an
+                                Employee Type</label>
+                            <select id="employeeType" data-th-field="*{employeeType}"
+                                class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option disabled value="">Choose</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Support">Support</option>
+                            </select>
+                            <p class="text-red-500" data-th-if="${#fields.hasErrors('employeeType')}"
+                                data-th-errors="*{employeeType}">
+                            </p>
+
+                            <div class="flex space-x-3">
+                                <div class="w-full">
+                                    <!-- first name input -->
+                                    <label for="input-group-1"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name
+                                    </label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-circle-user text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{firstName}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="name">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('firstName')}"
+                                        data-th-errors="*{firstName}">
+                                    </p>
+                                </div>
+                                <div class="w-full">
+                                    <!-- name input -->
+                                    <label for="input-group-1"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name
+                                    </label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-circle-user text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{lastName}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="lastName">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('lastName')}"
+                                        data-th-errors="*{lastName}">
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex space-x-3">
+                                <div class="w-full">
+                                    <!-- email -->
+                                    <label for="input-group-1"
+                                        class="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
+                                    </label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-envelope text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{email}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="example@gmail.com">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('email')}"
+                                        data-th-errors="*{email}">
+                                    </p>
+                                </div>
+                                <div class="w-full">
+                                    <!-- phone -->
+                                    <label for="input-group-1"
+                                        class="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
+                                        Number</label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-phone text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{phoneNumber}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="123-45-678">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('phoneNumber')}"
+                                        data-th-errors="*{phoneNumber}">
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex space-x-3">
+                                <div class="w-full">
+                                    <!-- city -->
+                                    <label for="input-group-1"
+                                        class="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"> City
+                                    </label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-location-dot text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{city}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="city">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('city')}"
+                                        data-th-errors="*{city}">
+                                    </p>
+                                </div>
+                                <div class="w-full">
+                                    <!-- state -->
+                                    <label for="input-group-1"
+                                        class="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">State
+                                    </label>
+                                    <div class="relative mb-1">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
+                                            <i class="fa-solid fa-location-dot text-blue-500"></i>
+                                        </div>
+                                        <input data-th-field="*{state}" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="state">
+                                    </div>
+                                    <p class="text-red-500" data-th-if="${#fields.hasErrors('state')}"
+                                        data-th-errors="*{state}">
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- address -->
+                            <label for="message"
+                                class="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                            <textarea data-th-field="*{address}" rows="2"
+                                class="relative mb-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="X-Y Street,City"></textarea>
+                            <p class="text-red-500" data-th-if="${#fields.hasErrors('address')}"
+                                data-th-errors="*{address}">
+                            </p>
+
+                            <!-- submit button -->
+                            <div class="mt-4 button-container text-center">
+                                <button type="submit"
+                                    class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white"> Update
+                                    Employee</button>
+                                <button type="reset"
+                                    class="px-3 py-2 rounded bg-purple-600 hover:bg-purple-500 text-white">Reset</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        console.log("update employees")
+    </script>
+</body>
+
+</html>

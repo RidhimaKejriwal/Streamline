@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{:: #content}, ~{:: title}, ~{:: script})}">
+
+<head>
+    <title>View Employees</title>
+</head>
+
+<body>
+    <div id="content">
+        <!-- user logged in : sidebar -->
+        <div th:if="${user}">
+            <div data-th-replace="~{admin/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- main content -->
+        <div class="sm:pl-64 pt-20 mx-5">
+            <div class="">
+                <h1 class="text-5xl text-center">All Your Employees</h1>
+
+                <div class="employee_container p-5">
+
+                    <!-- message -->
+                    <div data-th-replace="~{message :: messagebox}"></div>
+
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                        <form data-th-object="${employeeSearchForm}" data-th-action="@{'/admin/employees/search'}">
+                            <div
+                                class="p-3 flex items-center space-x-3 flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                                <div>
+                                    <!-- Dropdown menu -->
+                                    <div class="max-w-sm mx-auto">
+                                        <select data-th-field="*{field}" id="countries"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option selected value="">Search By</option>
+                                            <option value="firstName">First Name</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="email">Email</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label for="table-search" class="sr-only">Search</label>
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        </svg>
+                                    </div>
+                                    <input data-th-field="*{value}" type="text" id="table-search-users"
+                                        class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Search for users">
+                                </div>
+                                <button type="submit" class="px-3 py-2 bg-blue-500 text-white  hover:bg-blue-600 rounded">Search</button>
+                            </div>
+                        </form>
+                        <table data-th-unless="${pageEmployee.isEmpty()}"
+                            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Employee Type
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        First Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Last Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Phone
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-th-each="c : ${pageEmployee.getContent()}" data-th-object="${c}"
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-6 py-4">
+                                        <span data-th-text="*{employeeType}"></span>
+                                    </td>
+                                    <th scope="row"
+                                        class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                        <div class="ps-3">
+                                            <div class="text-base font-semibold" data-th-text="*{firstName}"></div>
+                                            <div class="font-normal text-gray-500" data-th-text="*{email}"></div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <div class="text-base font-semibold" data-th-text="*{lastName}"></div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <i class="fa-solid fa-phone"></i>
+                                            <span data-th-text="*{phoneNumber}"></span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <!-- <a data-th-href="@{'/user/contacts/delete/'+*{id}}"
+                                         class="px-1 text-red-500">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a> -->
+                                        <button th:onClick="deleteEmployee([[${c.id}]])"
+                                         class="px-1 text-red-500">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                        <a data-th-href="@{'/admin/employees/view/'+*{id}}"
+                                         class="px-1 text-green-500">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <button 
+                                        th:onclick="loadEmployeedata([[${c.id}]])" class="px-1 text-blue-500">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- pagination component -->
+                        <div data-th-unless="${pageEmployee.isEmpty()}" class="pagination_component p-2 text-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="inline-flex -space-x-px text-base h-10">
+                                    <li data-th-unless="${pageEmployee.first}">
+                                        <a data-th-href="@{'/admin/employees?size='+${pageSize}+'&page='+${pageEmployee.number-1}}"
+                                            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                                    </li>
+                                    <li data-th-each="index : ${#numbers.sequence(0,pageEmployee.totalPages-1)}">
+                                        <a data-th-href="@{'/admin/employees?size='+${pageSize}+'&page='+${index}}"
+                                            data-th-classappend="${index==pageEmployee.number?'bg-blue-200 dark:bg-gray-900':'bg-white dark:bg-gray-800'}"
+                                            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                            <span data-th-text="${index+1}"></span>
+                                        </a>
+                                    </li>
+                                    <li data-th-unless="${pageEmployee.last}">
+                                        <a data-th-href="@{'/admin/employees?size='+${pageSize}+'&page='+${pageEmployee.number+1}}"
+                                            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 data-th-if="${pageEmployee.isEmpty()}" class="text-5xl text-center mt-4 text-red-500"> No results
+                    found!!</h1>
+
+            </div>
+
+            <!-- employee modal -->
+            <div data-th-replace="~{admin/employee_modals :: employee}">
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <script data-th-src="@{'/js/employees.js'}">
+
+    </script>
+    <script>
+        console.log('dashboard page')
+    </script>
+</body>
+
+</html>

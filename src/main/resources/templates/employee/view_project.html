@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{:: #content}, ~{:: title}, ~{:: script})}">
+
+<head>
+    <title>View Projects</title>
+</head>
+
+<body>
+    <div id="content">
+        <!-- user logged in : sidebar -->
+        <div th:if="${user}">
+            <div data-th-replace="~{employee/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- main content -->
+        <div class="sm:pl-64 pt-20 mx-5">
+            <div class="">
+                <h1 class="text-4xl text-purple-600 dark:text-yellow-300">Project Summary</h1>
+
+                <div class="project_view p-5">
+
+                    <div class="grid grid-cols-12 space-x-4">
+                        <div class="col-span-8">
+
+                            <div
+                                class="w-full p-6 bg-white border-2 border-indigo-500 rounded-lg shadow dark:bg-gray-800 dark:border-purple-700">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                    <span data-th-text="${project.name}"></span>
+                                </h5>
+
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                    <span data-th-text="${project.description}"></span>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="col-span-4">
+                            <div
+                                class="w-full max-w-sm bg-white border-2 border-indigo-500 rounded-lg shadow dark:bg-gray-800 dark:border-purple-700">
+
+                                <div class="flex flex-col items-center pb-10 pt-10">
+                                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/images/default.png"
+                                        alt="Bonnie image" />
+                                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white"><span
+                                            data-th-text="${customer.firstName}+' ' + ${customer.lastName}"></span></h5>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400"
+                                        data-th-text="${customer.companyName}"></span>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <i class="fa-solid fa-at text-blue-500"></i>
+                                        <p data-th-text="${customer.email}"></p>
+                                    </div>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <i class="fa-solid fa-phone text-blue-500"></i>
+                                        <p data-th-text="${customer.phoneNumber}"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <ol th:if="${status == 'Pending'}" class="relative border-s-2 border-pink-400">
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-pink-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-pink-900">
+                                <svg class="w-2.5 h-2.5 text-pink-800 dark:text-pink-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                Pending
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Start
+                                date is <span data-th-text="${project.startDate}"></span>
+                            </time>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Your project is
+                                currently Pending. This means that we have received your project request and are
+                                preparing to start. We will keep you updated on the progress.</p>
+                        </li>
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">In Progress
+                            </h3>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Our team is actively
+                                working on it to ensure it meets your requirements and is delivered on time. You can
+                                track the progress through your dashboard.</p>
+                        </li>
+                        <li class="ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-green-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-green-900">
+                                <svg class="w-2.5 h-2.5 text-green-800 dark:text-green-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Completed
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Completion
+                                date is <span data-th-text="${project.endDate}"></span>
+                            </time>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">We are pleased to inform
+                                you that your project has been successfully completed. Please review the final
+                                deliverables and provide your feedback</p>
+                        </li>
+                    </ol>
+
+                    <ol th:if="${status == 'In Progress'}" class="relative border-s-2 border-blue-400">
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-pink-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-pink-900">
+                                <svg class="w-2.5 h-2.5 text-pink-800 dark:text-pink-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                Pending
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Start
+                                date is <span data-th-text="${project.startDate}"></span>
+                            </time>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Your project is
+                                currently Pending. This means that we have received your project request and are
+                                preparing to start. We will keep you updated on the progress.</p>
+                        </li>
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">In Progress
+                            </h3>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Our team is actively
+                                working on it to ensure it meets your requirements and is delivered on time. You can
+                                track the progress through your dashboard.</p>
+                        </li>
+                        <li class="ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-green-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-green-900">
+                                <svg class="w-2.5 h-2.5 text-green-800 dark:text-green-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Completed
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Completion
+                                date is <span data-th-text="${project.endDate}"></span>
+                            </time>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">We are pleased to inform
+                                you that your project has been successfully completed. Please review the final
+                                deliverables and provide your feedback</p>
+                        </li>
+                    </ol>
+
+                    <ol th:if="${status == 'Completed'}" class="relative border-s-2 border-green-400">
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-pink-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-pink-900">
+                                <svg class="w-2.5 h-2.5 text-pink-800 dark:text-pink-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                Pending
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Start
+                                date is <span data-th-text="${project.startDate}"></span>
+                            </time>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Your project is
+                                currently Pending. This means that we have received your project request and are
+                                preparing to start. We will keep you updated on the progress.</p>
+                        </li>
+                        <li class="mb-10 ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">In Progress
+                            </h3>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Our team is actively
+                                working on it to ensure it meets your requirements and is delivered on time. You can
+                                track the progress through your dashboard.</p>
+                        </li>
+                        <li class="ms-6">
+                            <span
+                                class="absolute flex items-center justify-center w-6 h-6 bg-green-200 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-green-900">
+                                <svg class="w-2.5 h-2.5 text-green-800 dark:text-green-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </span>
+                            <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Completed
+                            </h3>
+                            <time
+                                class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Completion
+                                date is <span data-th-text="${project.endDate}"></span>
+                            </time>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">We are pleased to inform
+                                you that your project has been successfully completed. Please review the final
+                                deliverables and provide your feedback</p>
+                        </li>
+                    </ol>
+
+                    <!-- update status form  -->
+                    <div>
+                        <form data-th-action="@{'/employee/projects/update/'+${projectId}}" method="post"
+                            data-th-object="${statusForm}" class="mt-6">
+
+                            <select id="status" data-th-field="*{status}"
+                                class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option disabled value="">Choose</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                            <button type="submit" class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white">
+                                Update Status
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        console.log('project view page')
+    </script>
+</body>
+
+</html>
